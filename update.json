@@ -1,0 +1,11 @@
+{
+  "version": "0.1.1",
+  "notes": "PIVOT 0.1.1 Windows installer. Source stays private in diny-hou/Pivot.",
+  "pub_date": "2026-08-22T09:01:34Z",
+  "platforms": {
+    "windows-x86_64": {
+      "url": "https://github.com/diny-hou/Pivot-releases/releases/download/v0.1.1/PIVOT_0.1.1_x64-setup.exe",
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVURU5UZndVU2ZJbE83MFFvdmpZb21SMGw2WFZlMUhTQVVPUFltZjlDQXVPUFltZjlDQXVNdnpqUjJRQkMyeFR1dzF4WlVCTkZzWmNTcjNkcDluQ0VLWGFTMmhDbkt3WmhxNG1BMWZ5ZkFnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg3Mzg5Mjk0CWZpbGU6UElWT1RfMC4xLjFfeDY0LXNldHVwLmV4ZQpTUXpvams2MUtEejJTaGtzV0VtZ0pMY1plY0FKeC9oMW9BaTdpMThTa0dzdXRtSGtvZEdNYmV4R3A1NDY2T0VMZ0IzL1VYM0gyc3A1RlI3VFVJcXZBUT09Cg=="
+    }
+  }
+}
