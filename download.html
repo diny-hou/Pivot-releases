@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>PIVOT installer download</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: ui-sans-serif, system-ui, sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+    button { font-size: 1rem; padding: 0.6rem 1rem; }
+    .muted { color: #555; }
+  </style>
+</head>
+<body>
+  <h1>PIVOT Windows installer</h1>
+  <p>Prefer a GitHub Release when one exists:
+    <a href="https://github.com/diny-hou/Pivot-releases/releases/latest">Releases</a>.
+  </p>
+  <p class="muted">If a release is not up yet, this page can assemble the installer from <code>dist/chunks</code>.</p>
+  <p><button id="go" type="button">Download installer</button></p>
+  <pre id="log"></pre>
+  <script>
+    const log = (m) => { document.getElementById('log').textContent += m + '\n'; };
+    document.getElementById('go').onclick = async () => {
+      try {
+        const manifest = await (await fetch('dist/manifest.json')).json();
+        const name = manifest.assets[0].name;
+        const expected = manifest.assets[0].sha256;
+        const parts = [];
+        for (let i = 0; ; i++) {
+          const url = 'dist/chunks/' + encodeURIComponent(name) + '/' + String(i).padStart(4, '0') + '.b64';
+          const res = await fetch(url);
+          if (res.status === 404) break;
+          if (!res.ok) throw new Error('chunk ' + url + ' -> ' + res.status);
+          parts.push(await res.text());
+          log('chunk ' + i);
+        }
+        if (!parts.length) throw new Error('No chunks found. Wait for a Release instead.');
+        const binary = Uint8Array.from(atob(parts.join('').replace(/\s+/g, '')), c => c.charCodeAt(0));
+        const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', binary)))
+          .map(b => b.toString(16).padStart(2, '0')).join('');
+        if (digest !== expected) throw new Error('sha256 mismatch');
+        const blob = new Blob([binary], { type: 'application/octet-stream' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        a.click();
+        log('saved ' + name);
+      } catch (e) {
+        log(String(e));
+      }
+    };
+  </script>
+</body>
+</html>
